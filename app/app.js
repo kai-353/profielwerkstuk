@@ -32,6 +32,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+io.on("connection", (socket) => {
+  console.log(socket.id);
+});
+
 app.locals.colors = {
   languid_lavender: "#CEC4D4",
   chinese_violet: "#6D597A",
