@@ -5,10 +5,26 @@ const expressLayouts = require("express-ejs-layouts");
 const flash = require("connect-flash");
 const session = require("express-session");
 const path = require("path");
+const mysql = require("mysql");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+// Create DB connection
+const db = mysql.createConnection({
+  host      : 'localhost',
+  user      : "root",
+  password  : "",
+  database  : "nodemysqltest"
+});
+
+db.connect((err) => {
+  if(err) {
+    throw err;
+  }
+  console.log("Connected");
+});
 
 app.use(expressLayouts);
 app.set("view engine", "ejs");
@@ -44,6 +60,23 @@ app.get("/", (req, res) => res.render("index"));
 
 app.get("/images/:image", (req, res) => {
   res.sendFile(path.join(__dirname, "../app/images/", req.params.image));
+});
+
+// app.get("/:random", (req, res) => {
+//   let random = {random: req.params.random};
+//   let sql = 'INSERT INTO test SET ?';
+//   let query = db.query(sql, random, (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
+
+app.get("/posts", (req, res) => {
+  let sql = 'SELECT * FROM test';
+  let query = db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
 });
 
 const PORT = process.env.PORT || 5000;
