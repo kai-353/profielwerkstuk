@@ -1,0 +1,35 @@
+#right-nav {
+    display: flex;
+    justify-content: right;
+}
+
+#normal-nav {
+    background-color: #CEC4D4;
+}
+
+#normal-nav-button {
+    color: white;
+}
+
+#nav-dropdown {
+    color: #fff;
+    background-color: #FFCF33;
+    border-color: #FFCF33;
+    margin-right: 7rem;
+}
+
+#nav-login {
+    color: #fff;
+    background-color: #FFCF33;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+#card-button {
+    background-color: #FFCF33;
+    border-color: #FFCF33;
+}
+
+a {
+    text-decoration: none;
+  }
