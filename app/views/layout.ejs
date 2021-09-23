@@ -15,12 +15,12 @@
       class="navbar navbar-light"
       id="normal-nav"
       >
-      <a class="navbar-brand ms-3" id="brand-name">Geluksproject</a>
+      <a class="navbar-brand ms-3" id="brand-name" href="/">Geluksproject</a>
       <div id="right-nav">
           <a class="nav-link" id="normal-nav-button" href="#">Wat is geluk?</a>
-          <a class="nav-link" id="normal-nav-button" href="#">Forum</a>
+          <a class="nav-link" id="normal-nav-button" href="/forum">Forum</a>
           <a class="nav-link" id="normal-nav-button" href="#">Lessen</a>
-<% if(typeof user != 'undefined') { console.log("yes"); %>
+<% if(typeof user != 'undefined') { %>
         <li class="nav-item dropdown" style="list-style-type: none;">
           <a class="btn dropdown-toggle"
           id="nav-dropdown" 
@@ -36,7 +36,7 @@
             <a class="dropdown-item" href="/users/logout">Log out</a>
           </div>
         </li>
-<% } else { console.log("no"); %>
+<% } else { %>
       <a class="nav-link" href="/users/register/" id="normal-nav-button">Register</a>
       <a
         class="btn me-3"

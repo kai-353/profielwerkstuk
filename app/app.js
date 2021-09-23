@@ -78,25 +78,26 @@ app.get("/css/:stylesheet", (req, res) => {
   res.sendFile(path.join(__dirname, "../app/views/css/", req.params.stylesheet));
 });
 
-// app.get("/:random", (req, res) => {
-//   let random = {random: req.params.random};
-//   let random = {random: null};
+// app.get("/random", (req, res) => {
+//   let random = {random: 5};
+//   // let random = {random: null};
 //   let sql = 'INSERT INTO test SET ?';
 //   let query = db.query(sql, random, (err, result) => {
 //     if (err) throw err;
-//     res.send(result);
+//     res.send({ id: result["insertId"] });
 //   });
 // });
 
 app.use('/users', require('./routes/users.js'));
+app.use('/forum', require('./routes/forum.js'))
 
-app.get("/posts", (req, res) => {
-  let sql = "SELECT * FROM users WHERE username = 'Kai-353'";
-  let query = db.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result[0]['email']);
-  });
-});
+// app.get("/posts", (req, res) => {
+//   let sql = "SELECT * FROM users WHERE username = 'Kai-353'";
+//   let query = db.query(sql, (err, result) => {
+//     if (err) throw err;
+//     res.send(result[0]['email']);
+//   });
+// });
 
 const PORT = process.env.PORT || 5000;
 
