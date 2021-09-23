@@ -99,6 +99,15 @@ app.use('/forum', require('./routes/forum.js'))
 //   });
 // });
 
+// array = ['users', 'posts', 'lessons', 'lessons_comments', 'posts_comments', 'ratings', 'fav_lessons', 'fav_posts'];
+
+// array.forEach(element => {
+//   db.query(`SHOW CREATE TABLE ${element}`, (err, result) => {
+//     console.log(result);
+//   });
+// });
+
+
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, console.log(`Server running on  ${PORT}`));
