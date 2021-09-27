@@ -1,0 +1,35 @@
+<div class="container ">
+    <div class="main-post mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text"><%= post.body %></p>
+                <footer class="blockquote-footer"><a href="/users/profile/<%= post.posted_by %>"><%= post.username %></a> <%= post.created_at %></footer>
+            </div>
+          </div>
+    </div>
+    <div class="commments mt-5">
+        <% comments.forEach(comment => { %>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text"><%= comment.body %></p>
+                    <footer class="blockquote-footer"><a href="/users/profile/<%= comment.posted_by %>"><%= comment.username %></a>, <%= comment.created_at %></footer>
+                </div>
+              </div>
+        <% }); %>
+    </div>
+    <div class="reaction mt-5" style="margin-bottom: <%= post.comment_count < 5 ? '500px' : '200px' %>;">
+        <div class="card">
+            <div class="card-header mb-4">
+                Jouw reactie
+            </div>
+            <form action="/forum/create/comment" method="POST" style="width: 90%; margin: auto">
+                <div class="form-group">
+                    <input type="hidden" id="post" name="post" value="<%= post.id %>">
+                    <textarea class="form-control" id="body" name="body" rows="3"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary mb-4">Plaats</button>
+            </form>
+        </div>
+    </div>
+</div>

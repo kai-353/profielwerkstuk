@@ -16,12 +16,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.get('/profile/:id', (req, res) => {
-  var id = 0
-  if (typeof req.user !== 'undefined' && req.user.id == req.params.id) {
-    id = req.user.id
-  } else {
-    id = req.params.id
-  }
+  var id = req.params.id;
   db.query(`SELECT username, email, created_at FROM users WHERE id = '${id}'`, (err, result) => {
     console.log(result[0]);
     res.send(result[0]);
