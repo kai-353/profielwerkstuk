@@ -90,4 +90,53 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
+router.get('/favorites', ensureAuthenticated, (req, res) => {
+  db.query(`SELECT fp.*, p.*, u.username, COUNT(pc.post) AS 'comment_count' FROM fav_posts AS fp
+	INNER JOIN posts AS p
+    ON fp.post_id = p.id
+    INNER JOIN users as u
+    ON p.posted_by = u.id
+    LEFT JOIN posts_comments AS pc
+    ON p.id = pc.post
+    WHERE fp.user_id = ${req.user.id}
+    GROUP BY p.id DESC;`, (err, posts) => {
+      if (err) throw err;
+      // res.send(posts);
+      res.render('favorites', { user: req.user, fav_posts: posts });
+    });
+});
+
+router.get('/favorites/new', ensureAuthenticated, (req, res) => {
+  if (typeof req.query.id == 'undefined') {
+    res.redirect('/forum/1');
+  } else {
+    const user_id = req.user.id;
+    const post_id = req.query.id;
+
+    const new_fav = { user_id, post_id };
+    const sql = "INSERT INTO fav_posts SET ?";
+
+    db.query(sql, new_fav, (err, result) => {
+      if (err) throw err;
+      res.redirect(`/forum/post/${req.query.id}`);
+    });
+  }
+});
+
+router.get('/favorites/delete', ensureAuthenticated, (req, res) => {
+  if (typeof req.query.id == 'undefined') {
+    res.redirect('/forum/1');
+  } else {
+    const user_id = req.user.id;
+    const post_id = req.query.id;
+
+    const sql = `DELETE FROM fav_posts WHERE user_id = ${user_id} AND post_id = ${post_id}`;
+
+    db.query(sql, (err, result) => {
+      if (err) throw err;
+      res.redirect(`/forum/post/${post_id}`);
+    });
+  }
+});
+
 module.exports = router;

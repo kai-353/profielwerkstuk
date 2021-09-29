@@ -2,7 +2,16 @@
     <div class="main-post mt-5">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><%= post.title %></h5>
+                <div style="width: 100%; display: flex; justify-content: right;">
+                    <h5 class="card-title" style="width: 80%;"><%= post.title %></h5>
+                    <div class="actions" style="width: 20%; text-align: right;">
+                        <% if (in_favs) { %>
+                            <a href="/users/favorites/delete?id=<%= post.id %>"><i class="fas fa-star"></i></a>
+                        <% } else { %>
+                            <a href="/users/favorites/new?id=<%= post.id %>"><i class="far fa-star"></i></a>
+                        <% } %>
+                    </div>
+                </div>
                 <p class="card-text"><%= post.body %></p>
                 <footer class="blockquote-footer"><a href="/users/profile/<%= post.posted_by %>"><%= post.username %></a> <%= post.created_at %></footer>
             </div>

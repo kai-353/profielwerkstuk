@@ -26,10 +26,10 @@
                     <div class="card-body" style="display: flex; justify-content: right;">
                         <div class="left" style="width: 80%;">
                             <p><%= post.body.substring(0, 40); %> <% if (post.body.length > 40) { %>...<% } %></p>
-                            <footer class="blockquote-footer">Gepost door <%= post.username %></footer>
+                            <footer class="blockquote-footer">Gepost door <a href="/users/profile/<%= post.posted_by %>"><%= post.username %></a></footer>
                         </div>
                         <div class="left" style="width: 20%; text-align: right;">
-                            <p><%= post.comment_count %> reacties</p>
+                            <p><i class="far fa-comment-dots" style="color: green;"></i> <%= post.comment_count %></p>
                         </div>
                     </div>
                 </div>

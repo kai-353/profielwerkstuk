@@ -7,21 +7,8 @@ router.get('/create/post', ensureAuthenticated, (req, res) => {
     res.render('create-post');
 });
 
-router.get('/create/autopost', (req, res) => {
-    const title = "test";
-    const body = "test";
-    const id = 3
-
-    const new_post = { title: title, body: body, posted_by: id }
-    let sql = 'INSERT INTO posts SET ?';
-
-    for (var i = 0; i < 10; i++) { 
-        db.query(sql, new_post, (err, result) => {
-            if (i == 9) {
-                res.redirect(`/forum/post/${result.insertId}`);
-            }
-        });
-    }
+router.get('/forum/favorite', ensureAuthenticated, (req, res) => {
+    res.send("favorited");
 });
 
 router.post('/create/post', ensureAuthenticated, (req, res) => {
@@ -125,8 +112,22 @@ router.get('/post/:id', (req, res) => {
         INNER JOIN users as u ON pc.posted_by = u.id
         WHERE pc.post = ${post[0].id}
         ORDER BY pc.created_at;`, (err, comments) => {
-            console.log(comments);
-            res.render('post', {user: req.user, post: post[0], comments: comments });
+            if (typeof req.user != 'undefined') {
+                db.query(`SELECT * FROM fav_posts WHERE user_id = ${req.user.id} AND post_id = ${post[0].id}`, (err, result) => {
+                    if (err) throw err;
+                    if (typeof result[0] == 'undefined') {
+                        console.log(comments);
+                        res.render('post', {user: req.user, post: post[0], comments: comments, in_favs: false });
+                    } else {
+                        console.log(comments);
+                        res.render('post', {user: req.user, post: post[0], comments: comments, in_favs: true });
+                    }
+                });
+            } else {
+                console.log(comments);
+                res.render('post', {user: req.user, post: post[0], comments: comments, in_favs: false });
+
+            }
         });
     });
 });

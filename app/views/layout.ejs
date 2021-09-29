@@ -196,7 +196,7 @@
       e.preventDefault()
       var text = document.getElementById('keyword').value;
       if (e.which == 13) {
-        window.location.replace(`/forum/<%= pagenr %>?${new URLSearchParams({keyword: text}).toString()}`);
+        window.location.replace(`/forum/1?${new URLSearchParams({keyword: text}).toString()}`);
       } else {
         document.getElementById('keyword').value = text + String.fromCharCode(e.which);
       }
