@@ -1,35 +1,45 @@
 #right-nav {
-    display: flex;
-    justify-content: right;
+  display: flex;
+  justify-content: right;
 }
 
 #normal-nav {
-    background-color: #CEC4D4;
+  background-color: #cec4d4;
 }
 
 #normal-nav-button {
-    color: white;
+  color: white;
 }
 
 #nav-dropdown {
-    color: #fff;
-    background-color: #FFCF33;
-    border-color: #FFCF33;
-    margin-right: 7rem;
+  color: #fff;
+  background-color: #ffcf33;
+  border-color: #ffcf33;
+  margin-right: 7rem;
 }
 
 #nav-login {
-    color: #fff;
-    background-color: #FFCF33;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  color: #fff;
+  background-color: #ffcf33;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #card-button {
-    background-color: #FFCF33;
-    border-color: #FFCF33;
+  background-color: #ffcf33;
+  border-color: #ffcf33;
 }
 
 a {
-    text-decoration: none;
-  }
+  text-decoration: none;
+}
+
+#center-container {
+  height: 650px;
+}
+
+#center-card {
+  max-width: 50%;
+  margin: auto;
+  margin-top: 325px;
+}

@@ -5,10 +5,10 @@ const expressLayouts = require("express-ejs-layouts");
 const flash = require("connect-flash");
 const session = require("express-session");
 const path = require("path");
-const passport = require('passport');
+const passport = require("passport");
 // const mysql = require("mysql");
 
-require('./config/passport')(passport);
+require("./config/passport")(passport);
 
 const app = express();
 const server = http.createServer(app);
@@ -33,7 +33,7 @@ var db = require("./config/conn")();
 
 app.use(expressLayouts);
 app.set("view engine", "ejs");
-app.set('view options', { layout:'layout.ejs' });
+app.set("view options", { layout: "layout.ejs" });
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -67,7 +67,7 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => {
   // console.log(req.isAuthenticated());
-  res.render("index", {user: req.user});
+  res.render("index", { user: req.user });
 });
 
 app.get("/images/:image", (req, res) => {
@@ -75,7 +75,9 @@ app.get("/images/:image", (req, res) => {
 });
 
 app.get("/css/:stylesheet", (req, res) => {
-  res.sendFile(path.join(__dirname, "../app/views/css/", req.params.stylesheet));
+  res.sendFile(
+    path.join(__dirname, "../app/views/css/", req.params.stylesheet)
+  );
 });
 
 // app.get("/random", (req, res) => {
@@ -88,9 +90,9 @@ app.get("/css/:stylesheet", (req, res) => {
 //   });
 // });
 
-app.use('/users', require('./routes/users.js'));
-app.use('/forum', require('./routes/forum.js'))
-app.get('/about', (req, res) => res.render('about', { user: req.user }))
+app.use("/users", require("./routes/users.js"));
+app.use("/forum", require("./routes/forum.js"));
+app.get("/about", (req, res) => res.render("about", { user: req.user }));
 
 // app.get("/posts", (req, res) => {
 //   let sql = "SELECT * FROM users WHERE username = 'Kai-353'";
@@ -107,7 +109,6 @@ app.get('/about', (req, res) => res.render('about', { user: req.user }))
 //     console.log(result);
 //   });
 // });
-
 
 const PORT = process.env.PORT || 5000;
 
