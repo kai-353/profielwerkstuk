@@ -22,12 +22,18 @@ router.get("/profile/:id", (req, res) => {
   db.query(
     `SELECT username, email, DATE_FORMAT(created_at, "%b %d '%y %H:%i") AS 'created_at' FROM users WHERE id = '${id}'`,
     (err, result) => {
-      console.log(result[0]);
-      if (typeof result[0] != "undefined") {
-        res.render("profile", { user: req.user, profile: result[0] });
-      } else {
-        res.redirect("/");
-      }
+      db.query(`SELECT COUNT(*) AS 'count' FROM posts_comments WHERE posted_by = ${id};`,
+      (err, comment_count) => {
+        db.query(`SELECT COUNT(*) AS 'count' FROM posts WHERE posted_by = ${id};` ,
+        (err, posts_count) => {
+          console.log(result[0]);
+          if (typeof result[0] != "undefined") {
+            res.render("profile", { user: req.user, profile: result[0], count: {comments: comment_count[0].count, posts: posts_count[0].count} });
+          } else {
+            res.redirect("/");
+          }
+        });
+      });
     }
   );
 });
