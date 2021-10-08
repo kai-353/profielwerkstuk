@@ -67,7 +67,7 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => {
   // console.log(req.isAuthenticated());
-  res.render("index", { user: req.user });
+  res.render("about", { user: req.user });
 });
 
 app.get("/images/:image", (req, res) => {
@@ -92,7 +92,7 @@ app.get("/css/:stylesheet", (req, res) => {
 
 app.use("/users", require("./routes/users.js"));
 app.use("/forum", require("./routes/forum.js"));
-app.get("/about", (req, res) => res.render("about", { user: req.user }));
+// app.get("/about", (req, res) => res.render("about", { user: req.user }));
 
 // app.get("/posts", (req, res) => {
 //   let sql = "SELECT * FROM users WHERE username = 'Kai-353'";
