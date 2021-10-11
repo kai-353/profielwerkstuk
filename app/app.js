@@ -110,6 +110,14 @@ app.use("/forum", require("./routes/forum.js"));
 //   });
 // });
 
+function keepAlive() {
+  db.query("SELECT 1", (err, rows) => {
+    if (err) throw err;
+  });
+}
+
+setInterval(keepAlive, 3000);
+
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, console.log(`Server running on  ${PORT}`));

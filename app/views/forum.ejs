@@ -1,65 +1,114 @@
 <div class="container">
-    <div class="d-flex justify-content-end">
-        <div class="mt-5" style="width: 30%;">
-            <!-- Hier komt het zoek / maak / filter menu -->
-            <div style="width: 100%; height: 65px;">
-                <form class="form-inline" onsubmit="myFunction(event)" onkeypress="myFunction(event)">
-                    <!-- <label class="sr-only" for="keyword">Search</label> -->
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="keyword" placeholder="Zoeken">
-                </form>
-            </div>
-            <div style="width: 100%; height: 65px;">
-                <a href="/forum/create/post" class="btn" style="color: #FFF; background-color: #FFCF33;">Nieuwe post</a>
-            </div>
-        </div>
-        <div class="posts" style="width: 70%;">
-            <% if (posts.length == 0) { %>
-                <div style="width: 100%; display: flex; justify-content: center; margin-top: 50px; margin-bottom: 450px;">
-                    <p>Geen posts gevonden met de zoekterm '<%= keyword %>'</p> 
-                </div>
-            <% } %>
-            <% posts.forEach(post => { %>
-                <div class="card mb-5 mt-5" style="width: 100%;">
-                    <div class="card-header">
-                        <a href="/forum/post/<%= post.id %>"><%= post.title %></a>
-                    </div>
-                    <div class="card-body" style="display: flex; justify-content: right;">
-                        <div class="left" style="width: 80%;">
-                            <p><%= post.body.substring(0, 40); %> <% if (post.body.length > 40) { %>...<% } %></p>
-                            <footer class="blockquote-footer">Gepost door <a href="/users/profile/<%= post.posted_by %>"><%= post.username %></a></footer>
-                        </div>
-                        <div class="left" style="width: 20%; text-align: right;">
-                            <p><i class="far fa-comment-dots" style="color: green;"></i> <%= post.comment_count %></p>
-                        </div>
-                    </div>
-                </div>
-            <% }); %>
-        </div>
+  <div class="d-flex justify-content-end">
+    <div class="mt-5" style="width: 30%">
+      <!-- Hier komt het zoek / maak / filter menu -->
+      <div style="width: 100%; height: 65px">
+        <form
+          class="form-inline"
+          onsubmit="myFunction(event)"
+          onkeypress="myFunction(event)"
+        >
+          <!-- <label class="sr-only" for="keyword">Search</label> -->
+          <input
+            type="text"
+            class="form-control mb-2 mr-sm-2"
+            id="keyword"
+            placeholder="Zoeken"
+          />
+        </form>
+      </div>
+      <div style="width: 100%; height: 65px">
+        <a
+          href="/forum/create/post"
+          class="btn"
+          style="color: #fff; background-color: #ffcf33"
+          >Nieuwe post</a
+        >
+      </div>
     </div>
+    <div class="posts" style="width: 70%">
+      <% if (posts.length == 0) { %>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 50px;
+          margin-bottom: 450px;
+        "
+      >
+        <p>Geen posts gevonden met de zoekterm '<%= keyword %>'</p>
+      </div>
+      <% } %> <% posts.forEach(post => { %>
+      <div class="card mb-5 mt-5" style="width: 100%">
+        <div class="card-header">
+          <a href="/forum/post/<%= post.id %>" style="color: #f99d03"
+            ><%= post.title %></a
+          >
+        </div>
+        <div class="card-body" style="display: flex; justify-content: right">
+          <div class="left" style="width: 80%">
+            <p>
+              <%= post.body.substring(0, 40); %> <% if (post.body.length > 40) {
+              %>...<% } %>
+            </p>
+            <footer class="blockquote-footer">
+              Gepost door
+              <a
+                href="/users/profile/<%= post.posted_by %>"
+                style="color: green"
+                ><%= post.username %></a
+              >
+            </footer>
+          </div>
+          <div class="left" style="width: 20%; text-align: right">
+            <p>
+              <i class="far fa-comment-dots" style="color: green"></i> <%=
+              post.comment_count %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
 
-    <nav class="mt-5">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="/forum/1" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-        <% if (pagenr == 1) { %>
-          <li class="page-item"><a class="page-link" href="/forum/1">1</a></li>
-          <% if (max >= 2) { %><li class="page-item"><a class="page-link" href="/forum/2">2</a></li> <% } %>
-          <% if (max >= 3) { %><li class="page-item"><a class="page-link" href="/forum/3">3</a></li> <% } %>
-        <% } else { %>
-            <li class="page-item"><a class="page-link" href="/forum/<%= pagenr - 1 %>"><%= pagenr - 1 %></a></li>
-            <li class="page-item"><a class="page-link" href="/forum/<%= pagenr %>"><%= pagenr %></a></li>
-            <% if (max >= pagenr + 1) { %><li class="page-item"><a class="page-link" href="/forum/<%= pagenr + 1 %>"><%= pagenr + 1 %></a></li> <% } %>
-        <% } %>
-          <li class="page-item">
-            <a class="page-link" href="/forum/<%= max %>" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+  <nav class="mt-5">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="/forum/1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <% if (pagenr == 1) { %>
+      <li class="page-item"><a class="page-link" href="/forum/1">1</a></li>
+      <% if (max >= 2) { %>
+      <li class="page-item"><a class="page-link" href="/forum/2">2</a></li>
+      <% } %> <% if (max >= 3) { %>
+      <li class="page-item"><a class="page-link" href="/forum/3">3</a></li>
+      <% } %> <% } else { %>
+      <li class="page-item">
+        <a class="page-link" href="/forum/<%= pagenr - 1 %>"
+          ><%= pagenr - 1 %></a
+        >
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="/forum/<%= pagenr %>"><%= pagenr %></a>
+      </li>
+      <% if (max >= pagenr + 1) { %>
+      <li class="page-item">
+        <a class="page-link" href="/forum/<%= pagenr + 1 %>"
+          ><%= pagenr + 1 %></a
+        >
+      </li>
+      <% } %> <% } %>
+      <li class="page-item">
+        <a class="page-link" href="/forum/<%= max %>" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </div>
