@@ -1,7 +1,7 @@
 const express = require("express");
 const { ensureAuthenticated } = require("../config/auth");
 const router = express.Router();
-var db = require("../config/conn")();
+// var db = require("../config/conn")();
 
 router.get("/create/post", ensureAuthenticated, (req, res) => {
   res.render("create-post");
@@ -24,7 +24,7 @@ router.post("/create/post", ensureAuthenticated, (req, res) => {
   let sql = "INSERT INTO posts SET ?";
 
   if (!empty) {
-    db.query(sql, new_post, (err, result) => {
+    req.db.query(sql, new_post, (err, result) => {
       console.log(result);
       console.log("dat was het result");
       res.redirect(`/forum/post/${result.insertId}`);
@@ -47,7 +47,7 @@ router.post("/create/comment", ensureAuthenticated, (req, res) => {
   const new_comment = { body: body, posted_by: id, post: post };
   let sql = "INSERT INTO posts_comments SET ?";
   if (!empty) {
-    db.query(sql, new_comment, (err, result) => {
+    req.db.query(sql, new_comment, (err, result) => {
       res.redirect(`/forum/post/${post}`);
     });
   } else {
@@ -83,9 +83,9 @@ router.get("/:pagenr", (req, res) => {
     GROUP BY p.id DESC
     LIMIT ${per_page} OFFSET ${pagenr * per_page - per_page};
     `;
-  db.query(sql, (err, result) => {
+  req.db.query(sql, (err, result) => {
     if (err) throw err;
-    db.query(
+    req.db.query(
       "SELECT COUNT(*) AS 'number_of_posts' FROM posts;",
       (err, amount) => {
         if (err) throw err;
@@ -110,7 +110,7 @@ router.get("/:pagenr", (req, res) => {
 
 router.get("/post/:id", (req, res) => {
   var id = req.params.id;
-  db.query(
+  req.db.query(
     `\
     SELECT p.id, p.title, p.body, p.posted_by, DATE_FORMAT(p.created_at, "%b %d '%y at %H:%i") AS 'created_at', u.username, COUNT(pc.post) AS 'comment_count' FROM posts AS p\
 	INNER JOIN users AS u\
@@ -122,7 +122,7 @@ router.get("/post/:id", (req, res) => {
     (err, post) => {
       if (err) throw err;
       console.log(post[0]);
-      db.query(
+      req.db.query(
         `
         SELECT pc.id, pc.body, pc.parent_comment, DATE_FORMAT(pc.created_at, "%b %d '%y at %H:%i") AS 'created_at', pc.posted_by, u.username
         FROM posts_comments as pc
@@ -131,7 +131,7 @@ router.get("/post/:id", (req, res) => {
         ORDER BY pc.created_at;`,
         (err, comments) => {
           if (typeof req.user != "undefined") {
-            db.query(
+            req.db.query(
               `SELECT * FROM fav_posts WHERE user_id = ${req.user.id} AND post_id = ${post[0].id}`,
               (err, result) => {
                 if (err) throw err;

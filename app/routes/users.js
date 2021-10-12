@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-var db = require("../config/conn")();
+// var db = require("../config/conn")();
 
 const { ensureAuthenticated, forwardAuthenticated } = require("../config/auth");
 
@@ -19,13 +19,13 @@ router.post("/login", (req, res, next) => {
 
 router.get("/profile/:id", (req, res) => {
   var id = req.params.id;
-  db.query(
+  req.db.query(
     `SELECT username, email, DATE_FORMAT(created_at, "%b %d '%y %H:%i") AS 'created_at' FROM users WHERE id = '${id}'`,
     (err, result) => {
-      db.query(
+      req.db.query(
         `SELECT COUNT(*) AS 'count' FROM posts_comments WHERE posted_by = ${id};`,
         (err, comment_count) => {
-          db.query(
+          req.db.query(
             `SELECT COUNT(*) AS 'count' FROM posts WHERE posted_by = ${id};`,
             (err, posts_count) => {
               console.log(result[0]);
@@ -82,7 +82,7 @@ router.post("/register", (req, res) => {
       password2,
     });
   } else {
-    db.query(
+    req.db.query(
       `SELECT email FROM users WHERE email = '${email}'`,
       (err, result) => {
         if (result[0] != undefined) {
@@ -100,7 +100,7 @@ router.post("/register", (req, res) => {
             email,
             password,
           };
-          db.query("INSERT INTO users SET ?", newUser, (err, result) => {
+          req.db.query("INSERT INTO users SET ?", newUser, (err, result) => {
             if (err) throw err;
             req.flash("success_msg", "You are now registered and can log in");
             res.redirect("/users/login");
@@ -119,7 +119,7 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/favorites", ensureAuthenticated, (req, res) => {
-  db.query(
+  req.db.query(
     `SELECT fp.*, p.*, u.username, COUNT(pc.post) AS 'comment_count' FROM fav_posts AS fp
 	INNER JOIN posts AS p
     ON fp.post_id = p.id
@@ -147,7 +147,7 @@ router.get("/favorites/new", ensureAuthenticated, (req, res) => {
     const new_fav = { user_id, post_id };
     const sql = "INSERT INTO fav_posts SET ?";
 
-    db.query(sql, new_fav, (err, result) => {
+    req.db.query(sql, new_fav, (err, result) => {
       if (err) throw err;
       res.redirect(`/forum/post/${req.query.id}`);
     });
@@ -163,7 +163,7 @@ router.get("/favorites/delete", ensureAuthenticated, (req, res) => {
 
     const sql = `DELETE FROM fav_posts WHERE user_id = ${user_id} AND post_id = ${post_id}`;
 
-    db.query(sql, (err, result) => {
+    req.db.query(sql, (err, result) => {
       if (err) throw err;
       res.redirect(`/forum/post/${post_id}`);
     });

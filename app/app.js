@@ -15,7 +15,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // Create DB connection
-var db = require("./config/conn")();
+// var db = require("./config/conn")();
 // var db = mysql.createConnection(config);
 // var db = mysql.createConnection({
 //   host      : 'localhost',
@@ -36,6 +36,11 @@ app.set("view engine", "ejs");
 app.set("view options", { layout: "layout.ejs" });
 
 app.use(express.urlencoded({ extended: true }));
+
+app.use(function (req, res, next) {
+  req.db = require("./config/conn")();
+  next();
+});
 
 app.use(
   session({
@@ -110,13 +115,13 @@ app.use("/forum", require("./routes/forum.js"));
 //   });
 // });
 
-function keepAlive() {
-  db.query("SELECT 1", (err, rows) => {
-    if (err) throw err;
-  });
-}
+// function keepAlive() {
+//   db.query("SELECT 1", (err, rows) => {
+//     if (err) throw err;
+//   });
+// }
 
-setInterval(keepAlive, 3000);
+// setInterval(keepAlive, 3000);
 
 const PORT = process.env.PORT || 5000;
 
