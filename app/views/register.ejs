@@ -1,3 +1,10 @@
+<script type="text/javascript">
+  function allowButton(btn) {
+          var button = document.getElementById('sumbit-button');
+          button.disabled = !btn.checked;
+      }
+</script>
+
 <div class="container" style="margin-bottom: 300px">
   <div class="row mt-5">
     <div class="col-md-6 m-auto">
@@ -51,10 +58,16 @@
               value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
             />
           </div>
+          <label for="posts_checkbox" class="mt-2">
+            <input type="checkbox" onclick="allowButton(this)" id="posts_checkbox" />
+            Ik geef toestemming om mijn gegevens op te slaan
+        </label>
           <button
             type="submit"
             class="btn btn-primary btn-block"
             style="background-color: #f99d03; border-color: #f99d03"
+            id="sumbit-button"
+            disabled
           >
             Registeren
           </button>
